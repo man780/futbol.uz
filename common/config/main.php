@@ -5,13 +5,32 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'db' => require(__DIR__ . '/db.php')
     ],
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
-            // you will configure your module inside this file
-            // or if need different configuration for frontend and backend you may
-            // configure in needed configs
+            'enableUnconfirmedLogin' => true,
+            'enableConfirmation' => true,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin'],
+            'mailer' => [
+                'sender'                => 'no-reply@futbol.loc', // or ['no-reply@myhost.com' => 'Sender name']
+                'welcomeSubject'        => 'Welcome subject',
+                'confirmationSubject'   => 'Confirmation subject',
+                'reconfirmationSubject' => 'Email change subject',
+                'recoverySubject'       => 'Recovery subject',
+
+                //'class' => 'yii\swiftmailer\Mailer',
+                // send all mails to a file by default. You have to set
+                // 'useFileTransport' to false and configure a transport
+                // for the mailer to send real emails.
+                //'useFileTransport' => true,
+            ],
+        ],
+        'rbac' => [
+            'class' => 'dektrium\rbac\Module',
         ],
     ],
 ];
